@@ -1,15 +1,21 @@
 <?php
-    try {
-        $con = new PDO("mysql:host=localhost;dbname=eclasse", "root", "");
-        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require 'vendor/autoload.php'; // Include Composer's autoloader
 
-    // Test the connection by running a simple query
-        $result = $con->query("SELECT 1");
-        if ($result !== false) {
-            echo "Database connection is working.";
-        } else {
-            echo "Database query failed.";
-        }
-    } catch (PDOException $e) {
-        echo "Connection failed: " . $e->getMessage();
+// Load environment variables
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+try {
+    // Create a MongoDB client using environment variable
+    $mongoClient = new MongoDB\Client($_ENV['MONGODB_URI']);
+    
+    // Select the database
+    $database = $mongoClient->storytime;
+    
+    // Select the collection
+    $collection = $database->feedback;
+    
+} catch (MongoDB\Driver\Exception\Exception $e) {
+    echo "MongoDB Connection failed: " . $e->getMessage();
 }
+?>

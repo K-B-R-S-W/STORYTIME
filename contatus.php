@@ -1,3 +1,36 @@
+<?php
+require_once 'connectionn.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+    try {
+        // Get form data
+        $name = $_POST['Name'] ?? '';
+        $email = $_POST['Email'] ?? '';
+        $description = $_POST['Description'] ?? '';
+        $phoneNumber = $_POST['Phonenumber'] ?? '';
+        
+        // Create document to insert
+        $document = [
+            'name' => $name,
+            'email' => $email,
+            'description' => $description,
+            'phone_number' => $phoneNumber,
+            'created_at' => new MongoDB\BSON\UTCDateTime(time() * 1000)
+        ];
+        
+        // Insert document
+        $insertResult = $collection->insertOne($document);
+        
+        if ($insertResult->getInsertedCount() > 0) {
+            echo "<script>alert('Feedback submitted successfully!');</script>";
+        } else {
+            echo "<script>alert('Error submitting feedback. Please try again.');</script>";
+        }
+    } catch (Exception $e) {
+        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "');</script>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
 
