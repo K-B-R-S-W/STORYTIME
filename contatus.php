@@ -459,6 +459,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     <input name="animation" type="hidden">
 
   <script src="build/snow3d.js"></script>
+    <!-- Include chat widget -->
+    <?php include_chat_widget(); ?>
 </body>
 
 </html>

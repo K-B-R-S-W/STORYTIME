@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php require_once __DIR__ . '/includes/chat-include.php'; ?>
 <html>
 
 <head>
@@ -893,6 +894,8 @@
     <input name="animation" type="hidden">
 
   <script src="build/snow3d.js"></script>
+    <!-- Include chat widget -->
+    <?php include_chat_widget(); ?>
 </body>
 
 </html>
