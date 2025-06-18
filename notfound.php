@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php require_once __DIR__ . '/includes/chat-include.php'; ?>
 <html>
 
 <head>
@@ -87,6 +88,8 @@
   <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i
         class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
   <input name="animation" type="hidden">
+    <!-- Include chat widget -->
+    <?php include_chat_widget(); ?>
 </body>
 
 </html>

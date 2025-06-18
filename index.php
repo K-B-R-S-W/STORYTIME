@@ -1,3 +1,7 @@
+<?php
+// Add at the beginning of the file, after the first line
+require_once __DIR__ . '/includes/chat-include.php';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -909,6 +913,9 @@
     <input name="animation" type="hidden">
 
   <script src="build/snow3d.js"></script>
+
+    <!-- Include chat widget -->
+    <?php include_chat_widget(); ?>
 </body>
 
 </html>
