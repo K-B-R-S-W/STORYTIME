@@ -1,5 +1,3 @@
-# filename: main copy.py
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +11,7 @@ import socket
 import uvicorn
 import re
 import logging # Import logging
+from pydantic import SecretStr
 
 # Setup basic logging
 logging.basicConfig(level=logging.INFO)
@@ -62,22 +61,21 @@ app.add_middleware(
 )
 # --- CORS Configuration End ---
 
-# Set up Groq API key (Replace with your actual key if needed)
-# It's better practice to use environment variables than hardcoding keys
-groq_api_key = os.environ.get("GROQ_API_KEY", "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") # Replace with your actual key if needed or set env var
-if not groq_api_key or groq_api_key == "YOUR_GROQ_API_KEY":
-     logger.error("GROQ_API_KEY not set or is placeholder. Please set the environment variable.")
-     # You might want to exit or raise an error here if the key is essential
-     # raise ValueError("GROQ_API_KEY not set")
+# Set up Groq API key (now only from environment variable)
+groq_api_key = os.environ.get("GROQ_API_KEY")
+if not groq_api_key:
+    logger.error("GROQ_API_KEY not set. Please set it in your .env file or environment.")
+    raise ValueError("GROQ_API_KEY not set")
+
+groq_api_key_secret = SecretStr(groq_api_key)
 
 # Initialize Groq clients
 try:
     groq_client = Groq(api_key=groq_api_key)
-    model = ChatGroq(model="llama3-8b-8192", groq_api_key=groq_api_key) # Switched to Llama3-8b
+    model = ChatGroq(model="llama3-8b-8192", api_key=groq_api_key_secret)
 except Exception as e:
-     logger.error(f"Failed to initialize Groq clients: {e}")
-     # Handle initialization failure (e.g., exit, provide limited functionality)
-     raise
+    logger.error(f"Failed to initialize Groq clients: {e}")
+    raise
 
 # Define the system prompt
 system_prompt = """You are StoryTime AI, a helpful assistant for the StoryTime movie booking website. Your primary goal is to assist users with movie bookings and provide information about our available movies.
@@ -194,26 +192,19 @@ async def chat(request: Request):
     try:
         data = await request.json()
         user_message = data.get("message", "").strip()
-        
         if not user_message:
             return JSONResponse(
                 content={"error": "No message provided"},
                 status_code=400
             )
-
         # Use LangGraph for response generation
-        config = {"configurable": {"thread_id": "text_conversation"}}
         response = graph.invoke(
-            {"messages": [HumanMessage(content=user_message)]},
-            config=config
+            {"messages": [HumanMessage(content=user_message)]}
         )
-        
         # Extract and format the response
         ai_message = response["messages"][-1].content
         formatted_response = format_response_as_list(ai_message)
-        
         return JSONResponse(content=formatted_response)
-        
     except Exception as e:
         logger.error(f"Error in chat endpoint: {e}", exc_info=True)
         return JSONResponse(
