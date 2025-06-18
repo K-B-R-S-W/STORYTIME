@@ -65,7 +65,7 @@ STORYTIME/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/STORYTIME.git
+   git clone https://github.com/K-B-R-S-W/STORYTIME.git
    ```
 
 2. **Navigate to the project directory:**
@@ -102,23 +102,15 @@ STORYTIME/
    - Feedback system
    - Contact information
 
-## Contributing 🤝
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## License 📄
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## Contact 📧
 
-Your Name - [your.email@example.com](mailto:your.email@example.com)
+Ravindu - [k.b.ravindusankalpaac@gmail.com](mailto:k.b.ravindusankalpaac@gmail.com)
 
-Project Link: [https://github.com/yourusername/STORYTIME](https://github.com/yourusername/STORYTIME)
+Project Link: [https://github.com/K-B-R-S-W/STORYTIME](https://github.com/K-B-R-S-W/STORYTIME)
 
 ## Acknowledgments 🙏
 
